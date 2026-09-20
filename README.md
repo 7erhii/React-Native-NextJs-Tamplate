@@ -12,7 +12,9 @@ The switch lives in `packages/config`. Registration is a marker on each
 surface (`web.auth`, `mobile.auth`) — the site and the app decide independently,
 not only the database. `authSource: 'config+db'` is reserved for a later overlay.
 
-What we are building, in one place:
+What this is, in one place:
+[`docs/what-this-is.md`](docs/what-this-is.md).
+The longer contract:
 [`docs/what-we-discussed.md`](docs/what-we-discussed.md).
 Design tokens live in `packages/tokens`; the catalog is `/ds` on the site.
 
