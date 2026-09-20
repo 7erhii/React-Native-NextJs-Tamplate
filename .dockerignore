@@ -1,0 +1,34 @@
+# Build context is the monorepo root (apps/web/Dockerfile). Keep it small.
+
+.git
+.github
+.cursor
+.expo
+.specify
+.turbo
+.vscode
+
+**/node_modules
+**/.next
+**/.turbo
+**/dist
+**/coverage
+**/*.tsbuildinfo
+
+# Fetched upstream stack + local DB volumes — never send these to the daemon.
+infra/supabase/docker
+
+# Native trees are not part of the website image.
+apps/mobile/android
+apps/mobile/ios
+
+.env
+.env.*
+!**/.env.example
+
+*.log
+npm-debug.*
+.DS_Store
+agent-transcripts
+docs
+specs

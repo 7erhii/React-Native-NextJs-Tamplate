@@ -1,0 +1,61 @@
+# Project-specific overrides for the upstream Supabase stack.
+#
+# Three auth settings here are load-bearing; without them the app's identity
+# design does not work:
+#
+#   GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED
+#       Allows anonymous sign-in, which is how progress reaches the cloud with no
+#       registration.
+#
+#   GOTRUE_SECURITY_MANUAL_LINKING_ENABLED
+#       Allows linkIdentity(), which upgrades an anonymous user to a Google
+#       account *in place*. Without it the SDK falls back to creating a new user
+#       and the player's progress is orphaned.
+#
+#   GOTRUE_EXTERNAL_GOOGLE_*
+#       The Google client secret lives here, server-side. The mobile app is a
+#       public OAuth client and never holds it.
+
+services:
+  studio:
+    ports:
+      - "${STUDIO_PORT:-54323}:3000"
+
+  db:
+    volumes:
+      # Bootstrap copies our SQL into volumes/db/init. Upstream compose does not
+      # mount that directory — pin the files onto the official init path.
+      - ./volumes/db/init/zz-0001_init.sql:/docker-entrypoint-initdb.d/migrations/zz-0001_init.sql:Z
+      - ./volumes/db/init/zz-0002_transfer_codes.sql:/docker-entrypoint-initdb.d/migrations/zz-0002_transfer_codes.sql:Z
+
+  auth:
+    environment:
+      # ---- Anonymous players -------------------------------------------------
+      GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: "true"
+
+      # ---- Progress-preserving account upgrade -------------------------------
+      GOTRUE_SECURITY_MANUAL_LINKING_ENABLED: "true"
+
+      # ---- Google provider ---------------------------------------------------
+      GOTRUE_EXTERNAL_GOOGLE_ENABLED: ${GOOGLE_ENABLED:-false}
+      GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOTRUE_EXTERNAL_GOOGLE_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOTRUE_EXTERNAL_GOOGLE_REDIRECT_URI: ${API_EXTERNAL_URL}/auth/v1/callback
+
+      # ---- Redirect allow-list ----------------------------------------------
+      # An explicit allow-list is what stops an attacker from redirecting a
+      # completed sign-in to a URL they control. Add your app scheme and, for
+      # physical devices, your LAN address.
+      GOTRUE_URI_ALLOW_LIST: ${ADDITIONAL_REDIRECT_URLS}
+
+      # ---- Token lifetime ---------------------------------------------------
+      # Short access tokens with rotating refresh tokens bound the damage a
+      # stolen token can do.
+      GOTRUE_JWT_EXP: "3600"
+      GOTRUE_REFRESH_TOKEN_ROTATION_ENABLED: "true"
+      GOTRUE_SECURITY_REFRESH_TOKEN_REUSE_INTERVAL: "10"
+
+      # Email signup is off: this project's account path is Google only, and an
+      # open signup endpoint is attack surface with no feature behind it.
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: "false"
+      GOTRUE_MAILER_AUTOCONFIRM: "true"

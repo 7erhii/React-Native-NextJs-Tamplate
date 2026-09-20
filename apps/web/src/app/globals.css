@@ -1,0 +1,291 @@
+:root {
+  --bg: var(--color-bg);
+  --bg-elevated: var(--color-bg-elevated);
+  --text: var(--color-text);
+  --muted: var(--color-text-muted);
+  --faint: var(--color-text-faint);
+  --accent: var(--color-accent);
+  --accent-soft: var(--color-accent-soft);
+  --line: var(--color-line);
+  --radius: var(--radius-md);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.banner {
+  margin: 0;
+  padding: 10px 24px;
+  background: var(--color-banner-bg);
+  color: var(--color-banner-text);
+  font-size: 13px;
+  text-align: center;
+}
+
+.shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  border: 0;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-ghost {
+  background: var(--line);
+  color: white;
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hero {
+  padding: 72px 0 40px;
+}
+
+.kicker {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+  font-size: var(--type-kicker-size);
+  margin: 0 0 12px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 6vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+}
+
+.lead {
+  font-size: 20px;
+  color: var(--text);
+  margin: 0 0 12px;
+  max-width: 36em;
+}
+
+.copy {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 40em;
+}
+
+.cta {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.note {
+  margin-top: 20px;
+  color: var(--faint);
+  font-size: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+}
+
+.card h2 {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.install {
+  margin-top: 56px;
+  padding: 28px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.install h2 {
+  margin: 0 0 8px;
+}
+
+.page {
+  padding: 64px 0;
+  max-width: 480px;
+}
+
+.page h1 {
+  margin: 0 0 12px;
+}
+
+.page p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.link {
+  color: var(--accent-soft);
+}
+
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.swatch {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
+.swatch-chip {
+  height: 56px;
+}
+
+.swatch figcaption {
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.swatch code {
+  display: block;
+  color: var(--faint);
+  font-size: 11px;
+}
+
+.kit-section {
+  margin-top: 48px;
+}
+
+.kit-section h2 {
+  font-size: 20px;
+  margin: 0 0 16px;
+}
+
+.kit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 320px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field input {
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.field .error {
+  color: var(--color-danger);
+  font-size: 12px;
+}
+
+.icon-sample {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.site-footer {
+  margin-top: 64px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--faint);
+  font-size: 13px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "mobile-world",
+  "private": true,
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Monorepo skeleton: Expo app + optional Next.js site + optional Supabase.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": "^22.13.0 || >=24.3.0"
+  },
+  "scripts": {
+    "dev": "npm run start -w @world/mobile",
+    "start": "npm run start -w @world/mobile",
+    "ios": "npm run ios -w @world/mobile",
+    "android": "npm run android -w @world/mobile",
+    "web": "npm run dev -w @world/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint -w @world/mobile",
+    "test": "npm run test -w @world/mobile",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "check:rls": "node scripts/check-rls.mjs",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "verify": "npm run typecheck && npm run lint && npm test && npm run check:rls && npm run check:secrets",
+    "stack:up": "bash scripts/stack-up.sh",
+    "stack:down": "bash scripts/stack-down.sh",
+    "stack:logs": "docker compose logs -f --tail=80",
+    "db:up": "bash infra/supabase/bootstrap.sh && docker compose -f infra/supabase/docker/docker-compose.yml -f infra/supabase/docker-compose.override.yml --project-directory infra/supabase/docker --env-file infra/supabase/.env up -d",
+    "db:down": "docker compose -f infra/supabase/docker/docker-compose.yml -f infra/supabase/docker-compose.override.yml --project-directory infra/supabase/docker --env-file infra/supabase/.env down",
+    "db:reset": "docker compose -f infra/supabase/docker/docker-compose.yml -f infra/supabase/docker-compose.override.yml --project-directory infra/supabase/docker --env-file infra/supabase/.env down -v && npm run db:up",
+    "db:bootstrap": "bash infra/supabase/bootstrap.sh"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3",
+    "prettier": "^3.9.6",
+    "turbo": "^2.5.8"
+  }
+}

@@ -1,0 +1,32 @@
+---
+description: Skeleton architecture — surfaces, config switch, tokens, no shared RN↔Next UI
+alwaysApply: true
+---
+
+# Mobile World
+
+This repo is a **cloneable skeleton**, not one product. Case A (phone only, no account, no site) is the default.
+
+## Surfaces
+
+- `apps/mobile` is the phone (Expo). `apps/web` is the website (Next.js). They are different frontends.
+- Do not add an Expo web marketing route. Do not share screens between RN and Next (no Solito/Tamagui).
+- Registration is a **marker per surface** in `packages/config/src/app.config.ts` (`web.auth`, `mobile.auth`), not only a database row. `authSource: 'config+db'` is later overlay; the file still wins if the DB is down.
+- Product version lives in `packages/config/src/release.json` (`version` + `build`). Bump that file, not `app.json`. EAS uses `appVersionSource: local`.
+
+## Tokens and icons
+
+- Hex colors, spacing, radius, type live in `packages/tokens`. Screens do not invent hex.
+- Icons use the `IconName` contract (`packages/tokens` → `iconNames`). Mobile: `expo-symbols`. Web: the SVG `Icon`. Do not drop random PNGs or a second icon library.
+
+## Ports
+
+- Feature/game/screen code depends on ports and platform hooks (`useSaveState`, `useIdentity`). Never import `@supabase/*`, adapters, or storage engines there. ESLint already forbids this in `apps/mobile/src/app` and `src/games`.
+
+```ts
+// ❌ BAD — screen talks to the vendor
+import { supabase } from '@/core/supabase/client';
+
+// ✅ GOOD
+const { identity } = useIdentity();
+```
